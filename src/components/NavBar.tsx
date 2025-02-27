@@ -1,3 +1,5 @@
+
+
 const NavBar = ()=>{
     return(
     <div className="nav-bar flex  flex-row justify-between bg-gray-800 p-5">
@@ -9,8 +11,8 @@ const NavBar = ()=>{
         </ul>
         <ul className="flex flex-row gap-2 pl-2 ">
             
-            <li><a className="text-2xl  text-gray-400 hover:text-orange-800 underline " href="#" >Support</a></li>
-            <li><a className="text-2xl text-gray-400 hover:text-orange-800  underline" href="#"  >Contact Us</a></li>
+            <li><a className="text-2xl  text-gray-400 hover:text-orange-800 underline " href="/support" > Support</a></li>
+            <li><a className="text-2xl text-gray-400 hover:text-orange-800  underline" href="/contact"  >Contact Us</a></li>
         </ul>
     </div>
 )
