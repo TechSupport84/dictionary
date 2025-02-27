@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SearchWord from "../components/SearchWord";
 import { BiBookBookmark, BiFilterAlt, BiVolumeFull, BiBookmarkPlus, BiBookmarkMinus } from "react-icons/bi";
 import axios from "axios";
+import GoogleAd from "../components/GoogleAd";
 
 interface License {
   name: string;
@@ -170,6 +171,8 @@ function Home() {
           </ul>
         </div>
       )}
+
+      <GoogleAd slot="7791776402"/>
     </div>
   );
 }
