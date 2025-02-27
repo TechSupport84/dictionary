@@ -160,7 +160,7 @@ function Home() {
       {/* Display Bookmarked Words */}
       {bookmarks.length > 0 && (
         <div className="mt-6 p-4 bg-gray-200 rounded-lg">
-          <h4 className="text-lg font-semibold">Bookmarked Words:</h4>
+          <h4 className="text-lg text-gray-800 font-semibold">Bookmarked Words:</h4>
           <ul className="list-disc ml-5">
             {bookmarks.map((word, index) => (
               <li key={index} className="text-blue-600 cursor-pointer hover:underline" onClick={() => setWord(word)}>

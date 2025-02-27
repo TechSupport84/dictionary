@@ -13,7 +13,7 @@ const SearchWord = ({ value, onChange }: InputProps) => {
         placeholder="Search word..." 
         value={value} 
         onChange={onChange} 
-        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        className="w-full px-4 py-2 text-gray-800 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
       />
       <BiSearchAlt className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-xl" />
     </div>
