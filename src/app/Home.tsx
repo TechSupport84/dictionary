@@ -112,7 +112,7 @@ function Home() {
                 {wordData.phonetics.map((phonetic, index) => (
                   <div key={index} className="flex items-center gap-2">
                     {phonetic.text && (
-                      <p className="text-gray-500 italic">{phonetic.text}</p>
+                      <p className="text-gray-500 italic text-gray-800">{phonetic.text}</p>
                     )}
                     {phonetic.audio && (
                       <button
@@ -128,7 +128,7 @@ function Home() {
             )}
 
             {/* Definitions */}
-            <h4 className="mt-2 font-semibold">Definitions:</h4>
+            <h4 className="mt-2 font-semibold text-gray-800">Definitions:</h4>
             <ul className="list-disc ml-5">
               {wordData.meanings.map((meaning, idx) => (
                 <li key={idx} className="text-gray-700">
