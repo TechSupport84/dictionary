@@ -9,7 +9,7 @@ interface GoogleAdProps {
 // Extend the Window interface for TypeScript support
 declare global {
   interface Window {
-    adsbygoogle: Array<Record<string, unknown>>;
+    adsbygoogle?: Array<Record<string, unknown>>;
   }
 }
 
@@ -18,7 +18,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthRes
     if (typeof window !== "undefined") {
       const scriptId = "adsbygoogle-js";
 
-      // Check if AdSense script is already present
+      // Check if AdSense script is already loaded
       if (!document.getElementById(scriptId)) {
         const script = document.createElement("script");
         script.id = scriptId;
@@ -29,15 +29,23 @@ const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthRes
 
         // Ensure ads load only after script is ready
         script.onload = () => {
-          if (window.adsbygoogle) {
-            window.adsbygoogle.push({});
-          }
+          setTimeout(() => {
+            if (window.adsbygoogle) {
+              window.adsbygoogle.push({});
+            }
+          }, 500); // Add slight delay to bypass tracking prevention
+        };
+
+        script.onerror = () => {
+          console.error("Google AdSense script failed to load.");
         };
       } else {
         // Script is already loaded, just push ads
-        if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
-        }
+        setTimeout(() => {
+          if (window.adsbygoogle) {
+            window.adsbygoogle.push({});
+          }
+        }, 500);
       }
     }
   }, []);
@@ -45,11 +53,12 @@ const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthRes
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: "block" }}
+      style={{ display: "block", minHeight: "90px" }} // Ensure height to avoid blank space
       data-ad-client="ca-pub-8628829898524808"
       data-ad-slot={slot}
       data-ad-format={format}
       data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
+      data-adsbygoogle-status="done"
     ></ins>
   );
 };
