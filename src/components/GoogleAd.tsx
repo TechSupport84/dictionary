@@ -16,29 +16,31 @@ declare global {
 const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthResponsive = true }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const scriptId = "adsbygoogle-js";
+      setTimeout(() => {
+        const scriptId = "adsbygoogle-js";
 
-      // Check if AdSense script is already present
-      if (!document.getElementById(scriptId)) {
-        const script = document.createElement("script");
-        script.id = scriptId;
-        script.async = true;
-        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-        script.crossOrigin = "anonymous";
-        document.body.appendChild(script);
+        // Check if AdSense script is already present
+        if (!document.getElementById(scriptId)) {
+          const script = document.createElement("script");
+          script.id = scriptId;
+          script.async = true;
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+          script.crossOrigin = "anonymous";
+          document.body.appendChild(script);
 
-        // Ensure ads load only after script is ready
-        script.onload = () => {
+          // Ensure ads load only after script is ready
+          script.onload = () => {
+            if (window.adsbygoogle) {
+              window.adsbygoogle.push({});
+            }
+          };
+        } else {
+          // Script is already loaded, just push ads
           if (window.adsbygoogle) {
             window.adsbygoogle.push({});
           }
-        };
-      } else {
-        // Script is already loaded, just push ads
-        if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
         }
-      }
+      }, 500); // Small delay to avoid tracking blocks
     }
   }, []);
 
