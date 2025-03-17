@@ -95,7 +95,7 @@ function Home() {
       </div>
 
       {/* Display Word Definition */}
-      <div className="mt-6 p-4 bg-gray-100 rounded-lg">
+      <div className="mt-6 p-4 bg-gray-800 rounded-lg">
         {error ? (
           <p className="text-red-500">{error}</p>
         ) : wordData ? (
@@ -132,10 +132,10 @@ function Home() {
             <h4 className="mt-2 font-semibold text-gray-800">Definitions:</h4>
             <ul className="list-disc ml-5">
               {wordData.meanings.map((meaning, idx) => (
-                <li key={idx} className="text-gray-700">
+                <li key={idx} className="text-gray-200">
                   <strong>{meaning.partOfSpeech}</strong>: {meaning.definitions[0].definition}
                   {meaning.definitions[0].example && (
-                    <p className="text-sm text-gray-500">Example: {meaning.definitions[0].example}</p>
+                    <p className="text-sm text-gray-300">Example: {meaning.definitions[0].example}</p>
                   )}
                 </li>
               ))}
@@ -143,22 +143,22 @@ function Home() {
 
             {/* Source & License */}
             {wordData.sourceUrls && wordData.sourceUrls.length > 0 && (
-              <p className="mt-4 text-sm text-gray-500">
+              <p className="mt-4 text-sm text-gray-400">
                 Source: <a href={wordData.sourceUrls[0]} className="text-blue-600 underline">{wordData.sourceUrls[0]}</a>
               </p>
             )}
             {wordData.license && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 License: <a href={wordData.license.url} className="text-blue-600 underline">{wordData.license.name}</a>
               </p>
             )}
           </>
         ) : (
-          <p className="text-gray-500">Type a word to get its definition.</p>
+    
+          <p className="text-gray-300">Get all word definitions here.</p>
         )}
       </div>
 
-      {/* Display Bookmarked Words */}
       {bookmarks.length > 0 && (
         <div className="mt-6 p-4 bg-gray-200 rounded-lg">
           <h4 className="text-lg text-gray-800 font-semibold">Bookmarked Words:</h4>
