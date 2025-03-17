@@ -26,6 +26,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthRes
           script.async = true;
           script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
           script.crossOrigin = "anonymous";
+          script.nonce = "your-nonce-value"; // Add nonce for CSP compliance
           document.body.appendChild(script);
 
           // Ensure ads load only after script is ready
@@ -44,15 +45,24 @@ const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthRes
     }
   }, []);
 
+  const handleUserInteraction = () => {
+    if (window.adsbygoogle) {
+      window.adsbygoogle.push({});
+    }
+  };
+
   return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block" }}
-      data-ad-client="ca-pub-8628829898524808"
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
-    ></ins>
+    <div>
+      <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>Load Ad</button>
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-8628829898524808"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
+      ></ins>
+    </div>
   );
 };
 
