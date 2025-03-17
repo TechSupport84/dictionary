@@ -6,7 +6,7 @@ interface GoogleAdProps {
   fullWidthResponsive?: boolean;
 }
 
-// Extend the Window interface to fix TypeScript errors
+// Extend the Window interface for TypeScript support
 declare global {
   interface Window {
     adsbygoogle: Array<Record<string, unknown>>;
@@ -16,23 +16,28 @@ declare global {
 const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthResponsive = true }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Load AdSense script dynamically if it's not already present
       const scriptId = "adsbygoogle-js";
+
+      // Check if AdSense script is already present
       if (!document.getElementById(scriptId)) {
         const script = document.createElement("script");
         script.id = scriptId;
         script.async = true;
-        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628829898524808";
+        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
         script.crossOrigin = "anonymous";
         document.body.appendChild(script);
-      }
 
-      // Initialize Google Ads after script loads
-      window.adsbygoogle = window.adsbygoogle || [];
-      try {
-        window.adsbygoogle.push({});
-      } catch (e) {
-        console.error("AdSense error:", e);
+        // Ensure ads load only after script is ready
+        script.onload = () => {
+          if (window.adsbygoogle) {
+            window.adsbygoogle.push({});
+          }
+        };
+      } else {
+        // Script is already loaded, just push ads
+        if (window.adsbygoogle) {
+          window.adsbygoogle.push({});
+        }
       }
     }
   }, []);
