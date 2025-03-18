@@ -1,5 +1,5 @@
 [[headers]]
   for = "/*"
-  [headers.values]
-    Content-Security-Policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://ep2.adtrafficquality.google https://adservice.google.com https://tpc.googlesyndication.com;"
+    [headers.values]
+    Content-Security-Policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://ep2.adtrafficquality.google https://adservice.google.com https://tpc.googlesyndication.com https://googleads.g.doubleclick.net;"
     Permissions-Policy = "interest-cohort=()"
