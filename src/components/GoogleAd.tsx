@@ -36,24 +36,22 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   const loadAds = () => {
     if (typeof window !== "undefined") {
       const scriptId = "adsbygoogle-js";
-      if (!document.getElementById(scriptId)) {
-        const script = document.createElement("script");
+      let script = document.getElementById(scriptId) as HTMLScriptElement;
+      
+      if (!script) {
+        script = document.createElement("script");
         script.id = scriptId;
         script.async = true;
         script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
         script.crossOrigin = "anonymous";
-        script.nonce = "your-nonce-value"; // Replace with your actual nonce if needed
         document.body.appendChild(script);
-        script.onload = () => {
-          if (window.adsbygoogle) {
-            window.adsbygoogle.push({});
-          }
-        };
-      } else {
+      }
+
+      script.onload = () => {
         if (window.adsbygoogle) {
           window.adsbygoogle.push({});
         }
-      }
+      };
     }
   };
 
