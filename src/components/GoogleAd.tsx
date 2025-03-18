@@ -1,29 +1,37 @@
 import { useEffect } from "react";
 
+declare global {
+  interface Window {
+    adsbygoogle?: unknown[];
+  }
+}
+
 const GoogleAd: React.FC = () => {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
     script.async = true;
     script.crossOrigin = "anonymous";
-    script.setAttribute("data-ad-client", "ca-pub-8628829898524808"); // Replace with your AdSense Publisher ID
     document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
+    script.onload = () => {
+      if (window.adsbygoogle) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     };
   }, []);
 
   return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", minHeight: "250px" }}
-      data-ad-client="ca-pub-8628829898524808" // Replace with your AdSense Publisher ID
-      data-ad-slot="9137501297" // Replace with your Ad slot ID
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
+    <div id="ad-container" style={{ minHeight: "250px" }}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-8628829898524808"
+        data-ad-slot="9137501297"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
   );
 };
 
