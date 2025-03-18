@@ -8,7 +8,7 @@ interface GoogleAdProps {
 
 declare global {
   interface Window {
-    adsbygoogle: unknown[];
+    adsbygoogle?: unknown[];
   }
 }
 
@@ -18,6 +18,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   fullWidthResponsive = true,
 }) => {
   const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
+  const [adLoaded, setAdLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const accepted = localStorage.getItem("cookiesAccepted") === "true";
@@ -37,7 +38,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     if (typeof window !== "undefined") {
       const scriptId = "adsbygoogle-js";
       let script = document.getElementById(scriptId) as HTMLScriptElement;
-      
+
       if (!script) {
         script = document.createElement("script");
         script.id = scriptId;
@@ -45,21 +46,28 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
         script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
         script.crossOrigin = "anonymous";
         document.body.appendChild(script);
-      }
 
-      script.onload = () => {
+        script.onload = () => {
+          if (window.adsbygoogle) {
+            window.adsbygoogle.push({});
+          }
+        };
+      } else {
         if (window.adsbygoogle) {
           window.adsbygoogle.push({});
-          
         }
-      };
+      }
     }
   };
 
   const handleUserInteraction = () => {
-    if (window.adsbygoogle) {
-      window.adsbygoogle.push({});
-     
+    if (typeof window !== "undefined" && window.adsbygoogle) {
+      const adElement = document.querySelector(".adsbygoogle") as HTMLElement;
+      if (adElement && !adElement.hasAttribute("data-loaded")) {
+        window.adsbygoogle.push({});
+        adElement.setAttribute("data-loaded", "true");
+        setAdLoaded(true);
+      }
     }
   };
 
@@ -73,9 +81,11 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       )}
       {cookiesAccepted && (
         <>
-          <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>
-            Load Ad
-          </button>
+          {!adLoaded && (
+            <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>
+              Load Ad
+            </button>
+          )}
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
