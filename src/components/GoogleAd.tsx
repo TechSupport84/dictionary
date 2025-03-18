@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 interface GoogleAdProps {
   slot: string;
@@ -17,9 +17,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   format = "auto",
   fullWidthResponsive = true,
 }) => {
-  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
-
-  // Clears the ad placeholder before creating a new ad container
+  // Clears the ad placeholder and creates a new ad container
   const reinitializeAdContainer = useCallback(() => {
     const adPlaceholder = document.getElementById("ad-placeholder");
     if (adPlaceholder) {
@@ -43,6 +41,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     }
   }, [slot, format, fullWidthResponsive]);
 
+  // Loads the AdSense script and pushes an ad after reinitializing the container
   const loadAds = useCallback(() => {
     if (typeof window !== "undefined") {
       if (!window.adsbygoogle) {
@@ -68,19 +67,11 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     }
   }, [reinitializeAdContainer]);
 
-  useEffect(() => {
-    const accepted = localStorage.getItem("cookiesAccepted") === "true";
-    if (accepted) {
-      setCookiesAccepted(true);
-      loadAds();
-    }
-  }, [loadAds]);
-
-  const acceptCookies = () => {
+  // Automatically accept cookies and load ads
+  const acceptCookies = useCallback(() => {
     localStorage.setItem("cookiesAccepted", "true");
-    setCookiesAccepted(true);
 
-    // Set the cookie via backend endpoint using .text() to avoid JSON parse errors.
+    // Set the cookie via backend endpoint using .text() to avoid JSON parse errors
     fetch("https://backend-dictionary.onrender.com/set-ad-cookie", {
       method: "GET",
       credentials: "include",
@@ -99,41 +90,18 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       .catch((err) => console.error("Error getting cookie:", err));
 
     loadAds();
-  };
+  }, [loadAds]);
 
-  const handleUserInteraction = () => {
-    loadAds();
-  };
+  useEffect(() => {
+    if (localStorage.getItem("cookiesAccepted") !== "true") {
+      acceptCookies();
+    } else {
+      loadAds();
+    }
+  }, [acceptCookies, loadAds]);
 
-  return (
-    <div className="p-4">
-      {!cookiesAccepted && (
-        <div className="mb-5 p-4 bg-red-100 rounded">
-          <p className="mb-3">
-            This site uses cookies to serve ads. Please accept cookies to view ads.
-          </p>
-          <button
-            onClick={acceptCookies}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Accept Cookies
-          </button>
-        </div>
-      )}
-
-      {cookiesAccepted && (
-        <>
-          <button
-            onClick={handleUserInteraction}
-            className="mb-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Load Ad
-          </button>
-          <div id="ad-placeholder"></div>
-        </>
-      )}
-    </div>
-  );
+  // No UI elements are rendered for cookie consent or ad load—ads load automatically.
+  return <div className="p-4"><div id="ad-placeholder"></div></div>;
 };
 
 export default GoogleAd;
