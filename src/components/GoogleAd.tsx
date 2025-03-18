@@ -8,7 +8,7 @@ interface GoogleAdProps {
 
 declare global {
   interface Window {
-    adsbygoogle: unknown[];
+    adsbygoogle?: unknown[];
   }
 }
 
@@ -35,31 +35,31 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
 
   const loadAds = () => {
     if (typeof window !== "undefined") {
+      document.querySelectorAll(".adsbygoogle").forEach((ad) => {
+        if (!ad.hasAttribute("data-loaded")) {
+          window.adsbygoogle?.push({});
+          ad.setAttribute("data-loaded", "true"); // Prevent duplicate loading
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (cookiesAccepted) {
       const scriptId = "adsbygoogle-js";
-      let script = document.getElementById(scriptId) as HTMLScriptElement;
-      
-      if (!script) {
-        script = document.createElement("script");
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement("script");
         script.id = scriptId;
         script.async = true;
         script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
         script.crossOrigin = "anonymous";
+        script.onload = () => window.adsbygoogle?.push({});
         document.body.appendChild(script);
+      } else {
+        loadAds();
       }
-
-      script.onload = () => {
-        if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
-        }
-      };
     }
-  };
-
-  const handleUserInteraction = () => {
-    if (window.adsbygoogle) {
-      window.adsbygoogle.push({});
-    }
-  };
+  }, [cookiesAccepted]);
 
   return (
     <div>
@@ -71,9 +71,6 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       )}
       {cookiesAccepted && (
         <>
-          <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>
-            Load Ad
-          </button>
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
