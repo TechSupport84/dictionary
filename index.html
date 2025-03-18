@@ -11,7 +11,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/dictionary.png" />
 
-    <!-- Open Graph (For Social Media Previews: Facebook, LinkedIn, etc.) -->
+    <!-- Open Graph (For Social Media Previews) -->
     <meta property="og:title" content="W-Language Dictionary" />
     <meta property="og:description" content="Your go-to dictionary app for word definitions and translations." />
     <meta property="og:image" content="/dictionary.png" />
@@ -27,25 +27,38 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#4A5568" />
 
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628829898524808"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628829898524808"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense (Only load once) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628829898524808" crossorigin="anonymous"></script>
   </head>
   <body class="bg-gray-700 text-white">
     <div id="root"></div>
 
+    <!-- Ad Slot (Will be loaded dynamically) -->
+    <div id="ad-container" style="min-height: 250px;"></div>
 
-<!-- ads-w -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8628829898524808"
-     data-ad-slot="9137501297"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <script>
+      window.onload = function () {
+        if (typeof window.adsbygoogle !== "undefined") {
+          let adContainer = document.getElementById("ad-container");
+
+          // Remove existing ads before inserting a new one
+          adContainer.innerHTML = "";
+
+          let adSlot = document.createElement("ins");
+          adSlot.className = "adsbygoogle";
+          adSlot.style.display = "block";
+          adSlot.setAttribute("data-ad-client", "ca-pub-8628829898524808");
+          adSlot.setAttribute("data-ad-slot", "9137501297");
+          adSlot.setAttribute("data-ad-format", "auto");
+          adSlot.setAttribute("data-full-width-responsive", "true");
+
+          adContainer.appendChild(adSlot);
+
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      };
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
