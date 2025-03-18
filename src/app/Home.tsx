@@ -189,7 +189,7 @@ function Home() {
         </div>
       )}
 
-      <GoogleAd slot="7791776402"/>
+      <GoogleAd/>
     </div>
   );
 }

@@ -1,10 +1,4 @@
-import { useEffect, useState } from "react";
-
-interface GoogleAdProps {
-  slot: string;
-  format?: string;
-  fullWidthResponsive?: boolean;
-}
+import { useEffect } from "react";
 
 declare global {
   interface Window {
@@ -12,92 +6,29 @@ declare global {
   }
 }
 
-const GoogleAd: React.FC<GoogleAdProps> = ({
-  slot,
-  format = "auto",
-  fullWidthResponsive = true,
-}) => {
-  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
-  const [adLoaded, setAdLoaded] = useState<boolean>(false);
-
+const GoogleAd: React.FC = () => {
   useEffect(() => {
-    const accepted = localStorage.getItem("cookiesAccepted") === "true";
-    if (accepted) {
-      setCookiesAccepted(true);
-      loadAds();
+    if (typeof window !== "undefined" && window.adsbygoogle) {
+      const adContainer = document.getElementById("ad-container");
+      if (adContainer) {
+        adContainer.innerHTML = "";
+
+        const adSlot = document.createElement("ins");
+        adSlot.className = "adsbygoogle";
+        adSlot.style.display = "block";
+        adSlot.setAttribute("data-ad-client", "ca-pub-8628829898524808");
+        adSlot.setAttribute("data-ad-slot", "9137501297");
+        adSlot.setAttribute("data-ad-format", "auto");
+        adSlot.setAttribute("data-full-width-responsive", "true");
+
+        adContainer.appendChild(adSlot);
+
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     }
   }, []);
 
-  const acceptCookies = () => {
-    localStorage.setItem("cookiesAccepted", "true");
-    setCookiesAccepted(true);
-    loadAds();
-  };
-
-  const loadAds = () => {
-    if (typeof window !== "undefined") {
-      const scriptId = "adsbygoogle-js";
-      let script = document.getElementById(scriptId) as HTMLScriptElement;
-
-      if (!script) {
-        script = document.createElement("script");
-        script.id = scriptId;
-        script.async = true;
-        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-        script.crossOrigin = "anonymous";
-        document.body.appendChild(script);
-
-        script.onload = () => {
-          if (window.adsbygoogle) {
-            window.adsbygoogle.push({});
-          }
-        };
-      } else {
-        if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
-        }
-      }
-    }
-  };
-
-  const handleUserInteraction = () => {
-    if (typeof window !== "undefined" && window.adsbygoogle) {
-      const adElement = document.querySelector(".adsbygoogle") as HTMLElement;
-      if (adElement && !adElement.hasAttribute("data-loaded")) {
-        window.adsbygoogle.push({});
-        adElement.setAttribute("data-loaded", "true");
-        setAdLoaded(true);
-      }
-    }
-  };
-
-  return (
-    <div>
-      {!cookiesAccepted && (
-        <div style={{ marginBottom: "10px", padding: "10px", background: "#f8d7da" }}>
-          <p>This site uses cookies to serve ads. Please accept cookies to view ads.</p>
-          <button onClick={acceptCookies}>Accept Cookies</button>
-        </div>
-      )}
-      {cookiesAccepted && (
-        <>
-          {!adLoaded && (
-            <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>
-              Load Ad
-            </button>
-          )}
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-8628829898524808"
-            data-ad-slot={slot}
-            data-ad-format={format}
-            data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
-          ></ins>
-        </>
-      )}
-    </div>
-  );
+  return <div id="ad-container" style={{ minHeight: "250px" }}></div>;
 };
 
 export default GoogleAd;
