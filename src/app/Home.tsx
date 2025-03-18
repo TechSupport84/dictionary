@@ -78,22 +78,6 @@ function Home() {
   };
 
 
-// Set the cookie
-fetch("https://backend-dictionary.onrender.com/set-ad-cookie", {
-  method: "GET",
-  credentials: "include", // This ensures cookies are stored
-})
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-
-// Get the cookie
-fetch("https://backend-dictionary.onrender.com/get-ad-cookie", {
-  method: "GET",
-  credentials: "include",
-})
-  .then((res) => res.text())
-  .then((data) => console.log(data));
-
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
