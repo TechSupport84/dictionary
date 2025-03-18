@@ -8,27 +8,32 @@ declare global {
 
 const GoogleAd: React.FC = () => {
   useEffect(() => {
-    if (typeof window !== "undefined" && window.adsbygoogle) {
-      const adContainer = document.getElementById("ad-container");
-      if (adContainer) {
-        adContainer.innerHTML = "";
+    const script = document.createElement("script");
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.setAttribute("data-ad-client", "ca-pub-8628829898524808");
+    document.head.appendChild(script);
 
-        const adSlot = document.createElement("ins");
-        adSlot.className = "adsbygoogle";
-        adSlot.style.display = "block";
-        adSlot.setAttribute("data-ad-client", "ca-pub-8628829898524808");
-        adSlot.setAttribute("data-ad-slot", "9137501297");
-        adSlot.setAttribute("data-ad-format", "auto");
-        adSlot.setAttribute("data-full-width-responsive", "true");
-
-        adContainer.appendChild(adSlot);
-
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+    script.onload = () => {
+      if (window.adsbygoogle) {
+        window.adsbygoogle.push({});
       }
-    }
+    };
   }, []);
 
-  return <div id="ad-container" style={{ minHeight: "250px" }}></div>;
+  return (
+    <div id="ad-container" style={{ minHeight: "250px", textAlign: "center" }}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client="ca-pub-8628829898524808"
+        data-ad-slot="9137501297"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  );
 };
 
 export default GoogleAd;

@@ -1,6 +1,2 @@
-Content-Security-Policy: default-src 'self' https://pagead2.googlesyndication.com; 
-  script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline' 'unsafe-eval'; 
-  style-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com;
-  img-src 'self' https://pagead2.googlesyndication.com data:;
-  frame-src 'self' https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com;
-
+/*
+Content-Security-Policy: script-src 'self' https://pagead2.googlesyndication.com
