@@ -1,5 +1,1 @@
-/*
-  Content-Security-Policy: default-src 'self' https://pagead2.googlesyndication.com; 
-  script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline' 'unsafe-eval'; 
-  style-src 'self' 'nonce-YourGeneratedNonce';
 
