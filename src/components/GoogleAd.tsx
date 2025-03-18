@@ -31,16 +31,16 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     localStorage.setItem("cookiesAccepted", "true");
     setCookiesAccepted(true);
 
-    // Set the cookie via backend endpoint
+    // Set the cookie via backend endpoint (expecting plain text)
     fetch("https://backend-dictionary.onrender.com/set-ad-cookie", {
       method: "GET",
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => res.text())
       .then((data) => console.log("Set cookie response:", data))
       .catch((err) => console.error("Error setting cookie:", err));
 
-    // Get the cookie via backend endpoint
+    // Get the cookie via backend endpoint (expecting plain text)
     fetch("https://backend-dictionary.onrender.com/get-ad-cookie", {
       method: "GET",
       credentials: "include",
