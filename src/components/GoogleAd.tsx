@@ -1,35 +1,66 @@
 import { useEffect } from "react";
 
+interface GoogleAdProps {
+  slot: string;
+  format?: string;
+  fullWidthResponsive?: boolean;
+}
+
+// Extend the Window interface for TypeScript support
 declare global {
   interface Window {
-    adsbygoogle?: unknown[];
+    adsbygoogle: Array<Record<string, unknown>>;
   }
 }
 
-const GoogleAd: React.FC = () => {
+const GoogleAd: React.FC<GoogleAdProps> = ({ slot, format = "auto", fullWidthResponsive = true }) => {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    document.body.appendChild(script);
+    if (typeof window !== "undefined") {
+      setTimeout(() => {
+        const scriptId = "adsbygoogle-js";
 
-    script.onload = () => {
-      if (window.adsbygoogle) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
-    };
+        // Check if AdSense script is already present
+        if (!document.getElementById(scriptId)) {
+          const script = document.createElement("script");
+          script.id = scriptId;
+          script.async = true;
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+          script.crossOrigin = "anonymous";
+          script.nonce = "your-nonce-value"; // Add nonce for CSP compliance
+          document.body.appendChild(script);
+
+          // Ensure ads load only after script is ready
+          script.onload = () => {
+            if (window.adsbygoogle) {
+              window.adsbygoogle.push({});
+            }
+          };
+        } else {
+          // Script is already loaded, just push ads
+          if (window.adsbygoogle) {
+            window.adsbygoogle.push({});
+          }
+        }
+      }, 500); // Small delay to avoid tracking blocks
+    }
   }, []);
 
+  const handleUserInteraction = () => {
+    if (window.adsbygoogle) {
+      window.adsbygoogle.push({});
+    }
+  };
+
   return (
-    <div id="ad-container" style={{ minHeight: "250px" }}>
+    <div>
+      <button onClick={handleUserInteraction} style={{ marginBottom: "10px" }}>Load Ad</button>
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
         data-ad-client="ca-pub-8628829898524808"
-        data-ad-slot="9137501297"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
       ></ins>
     </div>
   );
