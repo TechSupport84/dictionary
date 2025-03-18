@@ -46,27 +46,24 @@
       window.onload = function () {
         if (typeof window.adsbygoogle !== "undefined") {
           let adContainer = document.getElementById("ad-container");
-    
+
           // Remove existing ads before inserting a new one
           adContainer.innerHTML = "";
-    
+
           let adSlot = document.createElement("ins");
           adSlot.className = "adsbygoogle";
           adSlot.style.display = "block";
-          adSlot.style.width = "300px";  
-          adSlot.style.height = "250px"; 
           adSlot.setAttribute("data-ad-client", "ca-pub-8628829898524808");
           adSlot.setAttribute("data-ad-slot", "9137501297");
           adSlot.setAttribute("data-ad-format", "auto");
-          adSlot.setAttribute("data-adtest=", "on")
-    
+          adSlot.setAttribute("data-full-width-responsive", "true");
+
           adContainer.appendChild(adSlot);
-    
+
           (adsbygoogle = window.adsbygoogle || []).push({});
         }
       };
     </script>
-    
 
     <script type="module" src="/src/main.tsx"></script>
   </body>
