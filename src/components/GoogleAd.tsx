@@ -50,6 +50,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       script.onload = () => {
         if (window.adsbygoogle) {
           window.adsbygoogle.push({});
+          
         }
       };
     }
@@ -58,6 +59,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
   const handleUserInteraction = () => {
     if (window.adsbygoogle) {
       window.adsbygoogle.push({});
+     
     }
   };
 
