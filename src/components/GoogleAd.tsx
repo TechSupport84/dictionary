@@ -25,11 +25,11 @@ const AdsComponent: React.FC<AdsComponentProps> = ({ dataAdSlot }) => {
   return (
     <ins
       className="adsbygoogle"
-      style={{ display: "block" }}
+      style={{ display: "block", width: "300px", height: "250px" }}
       data-ad-client="ca-pub-8628829898524808"
       data-ad-slot={dataAdSlot}
       data-ad-format="auto"
-      data-full-width-responsive="true"
+      data-adtest="on"
     ></ins>
   );
 };
