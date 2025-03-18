@@ -19,10 +19,12 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
 }) => {
   const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
 
+  // This function clears the ad placeholder container before creating a new ad container.
   const reinitializeAdContainer = useCallback(() => {
-    const existingIns = document.getElementById("ads-container");
-    if (existingIns) {
-      existingIns.remove();
+    const adPlaceholder = document.getElementById("ad-placeholder");
+    if (adPlaceholder) {
+      // Clear all existing ad containers within the placeholder.
+      adPlaceholder.innerHTML = "";
     }
     const ins = document.createElement("ins");
     ins.id = "ads-container";
@@ -35,7 +37,6 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       "data-full-width-responsive",
       fullWidthResponsive ? "true" : "false"
     );
-    const adPlaceholder = document.getElementById("ad-placeholder");
     if (adPlaceholder) {
       adPlaceholder.appendChild(ins);
     } else {
@@ -80,6 +81,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
     localStorage.setItem("cookiesAccepted", "true");
     setCookiesAccepted(true);
 
+    // Set the cookie via backend endpoint
     fetch("https://backend-dictionary.onrender.com/set-ad-cookie", {
       method: "GET",
       credentials: "include",
@@ -88,6 +90,7 @@ const GoogleAd: React.FC<GoogleAdProps> = ({
       .then((data) => console.log("Set cookie response:", data))
       .catch((err) => console.error("Error setting cookie:", err));
 
+    // Get the cookie via backend endpoint
     fetch("https://backend-dictionary.onrender.com/get-ad-cookie", {
       method: "GET",
       credentials: "include",
