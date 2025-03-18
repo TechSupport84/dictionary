@@ -2,3 +2,4 @@
   for = "/*"
   [headers.values]
     Content-Security-Policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://ep2.adtrafficquality.google https://adservice.google.com https://tpc.googlesyndication.com;"
+    Permissions-Policy = "interest-cohort=()"

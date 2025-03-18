@@ -91,7 +91,12 @@ function Home() {
 
 
 
+  const openChromeSettings = () => {
+    window.open("chrome://settings/cookies", "_blank");
+  };
+  
 
+  
 
 
   return (
@@ -190,6 +195,9 @@ function Home() {
       )}
 
       <GoogleAd/>
+      <button  className ="bg-red-300"onClick={openChromeSettings}>
+    Enable Cookies in Chrome
+  </button>;
     </div>
   );
 }
